@@ -1,6 +1,6 @@
 # Getting Started with Create React App
 ## Live Demo
-Check out the live demo [here](https://ecomm-react-project.vercel.app/).
+Check out the live demo [click here to go to website](https://weather-app-resu.vercel.app/).
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
