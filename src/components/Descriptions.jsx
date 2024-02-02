@@ -62,7 +62,10 @@ const Descriptions = ({ weather, units }) => {
             <small>{title}</small>
           </div>
           <h2>{`${data} ${unit}`}</h2>
+          
         </div>
+
+         
       ))}
     </div>
   );

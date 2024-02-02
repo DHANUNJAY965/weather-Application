@@ -89,6 +89,7 @@
   background-color: lightgray;
 }
 
+
 .icon {
   display: flex;
   flex-direction: column;
@@ -105,3 +106,36 @@
 .temperature>h1 {
   font-size: 60px;
 }
+
+
+.citylist {
+  position: relative;
+  width: 100%;
+}
+
+.citylist .modify {
+  
+  color: white;
+  cursor: pointer;
+  padding: 10px;
+  width: calc(100% - 2px); /* Adjust for border width */
+  box-sizing: border-box;
+  position: relative;
+}
+
+.citylist .modify:last-child {
+  border-bottom: none;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+

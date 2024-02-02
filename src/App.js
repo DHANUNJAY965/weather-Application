@@ -1,30 +1,59 @@
-import hotBg from "./images/hot.jpg";
-import coldBg from "./images/cold.jpg";
+import hotBg from "./images/hott.jpg";
+import coldBg from "./images/cool.jpg";
 import Descriptions from "./components/Descriptions";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback, useMemo } from "react";
 import { getFormattedWeatherData } from "./weatherService";
+import allcities from "./city.list.json";
+
+const debounce = (func, delay) => {
+  let timer;
+  return (...args) => {
+    clearTimeout(timer);
+    timer = setTimeout(() => func(...args), delay);
+  };
+};
+
+// ... (previous imports)
 
 function App() {
   const [city, setCity] = useState("Visakhapatnam");
   const [weather, setWeather] = useState(null);
   const [units, setUnits] = useState("metric");
   const [bg, setBg] = useState(hotBg);
+  const [allcity, setAllcities] = useState([]);
+  const [searchcity, setSearchcity] = useState("");
+  const [filteredCities, setFilteredCities] = useState([]);
 
   useEffect(() => {
+    const allCitiesArray = allcities.map((cityObj) => cityObj.name);
+    setAllcities(allCitiesArray);
+    
+  }, []);
+
+  const handleInputChange = useCallback(
+    debounce((event) => {
+      const input = event.target.value.toLowerCase();
+      setSearchcity(input);
+    }, 500),
+    []
+  );
+
+  useEffect(() => {
+    setFilteredCities([]); // Clear the filteredCities array when city changes
+
     const fetchWeatherData = async () => {
       try {
         const data = await getFormattedWeatherData(city, units);
-    
-        // Check if the data object is defined before updating the state
+
         if (data) {
-          setWeather(data);
-    
-          // dynamic bg
+          setWeather((prevWeather) => ({
+            ...prevWeather,
+            ...data,
+          }));
+
           const threshold = units === "metric" ? 20 : 60;
-          if (data.temp <= threshold) setBg(coldBg);
-          else setBg(hotBg);
+          setBg(data.temp <= threshold ? coldBg : hotBg);
         } else {
-          
           console.error("City not found.");
         }
       } catch (error) {
@@ -33,15 +62,25 @@ function App() {
     };
 
     fetchWeatherData();
-  }, [city,units]);
+  }, [city, units]);
 
- 
-  const enterKeyPressed = (e) => {
-    if (e.keyCode === 13) {
-      setCity(e.target.value);
-      e.target.blur();
-    }
-  };
+  useEffect(() => {
+    setFilteredCities(
+      allcity
+        .filter((cityName) => cityName.toLowerCase().includes(searchcity))
+        .slice(0, 10)
+    );
+  }, [allcity, searchcity]);
+
+  const enterKeyPressed = useCallback(
+    debounce((e) => {
+      if (e.keyCode === 13) {
+        setCity(e.target.value);
+        e.target.blur();
+      }
+    }, 500),
+    []
+  );
 
   return (
     <div className="app" style={{ backgroundImage: `url(${bg})` }}>
@@ -50,13 +89,29 @@ function App() {
           <div className="container">
             <div className="section section__inputs">
               <input
+              id="change"
                 onKeyDown={enterKeyPressed}
+                onChange={handleInputChange}
                 type="text"
                 name="city"
                 placeholder="Enter City..."
+                
               />
-              {/* <button>°F</button> */}
             </div>
+            {searchcity.length > 1 && (
+              <div className="citylist">
+                {filteredCities.map((cityName) => (
+                  <div
+                    className="modify"
+                    key={cityName}
+                    onClick={() => {setCity(cityName) 
+                      document.getElementById("change").value=cityName }}
+                  >
+                    {cityName}
+                  </div>
+                ))}
+              </div>
+            )}
 
             <div className="section section__temperature">
               <div className="icon">
