@@ -98,7 +98,7 @@ function App() {
                 
               />
             </div>
-            {(searchcity.length > 1 && filteredCities.length==0 ) ? (<></>):searchcity.length > 1 && (
+            {(searchcity.length > 1 && filteredCities.length===0 ) ? (<></>):searchcity.length > 1 && (
               <div className="citylist">
                 {filteredCities.map((cityName) => (
                   <div
