@@ -104,8 +104,10 @@ function App() {
                   <div
                     className="modify"
                     key={cityName}
-                    onClick={() => {setCity(cityName) 
-                      document.getElementById("change").value=cityName }}
+                    onClick={() => {setCity(cityName) ;
+                      document.getElementById("change").value=cityName;
+                      setFilteredCities([]);
+                     }}
                   >
                     {cityName}
                   </div>
