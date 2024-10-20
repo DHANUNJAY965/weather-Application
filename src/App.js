@@ -1,11 +1,10 @@
 import hotBg from "./images/hott.jpg";
 import coldBg from "./images/cool.jpg";
 import Descriptions from "./components/Descriptions";
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useState, useCallback, useMemo } from "react";
 import { getFormattedWeatherData } from "./weatherService";
 import allcities from "./city.list.json";
 
-// Debounce function to delay API calls
 const debounce = (func, delay) => {
   let timer;
   return (...args) => {
@@ -14,8 +13,10 @@ const debounce = (func, delay) => {
   };
 };
 
+// ... (previous imports)
+
 function App() {
-  const [city, setCity] = useState("Visakhapatnam");
+  const [city, setCity] = useState("State of Jammu and Kashmīr");
   const [weather, setWeather] = useState(null);
   const [units, setUnits] = useState("metric");
   const [bg, setBg] = useState(hotBg);
@@ -26,6 +27,7 @@ function App() {
   useEffect(() => {
     const allCitiesArray = allcities.map((cityObj) => cityObj.name);
     setAllcities(allCitiesArray);
+    
   }, []);
 
   const handleInputChange = useCallback(
@@ -37,7 +39,7 @@ function App() {
   );
 
   useEffect(() => {
-    setFilteredCities([]);
+    setFilteredCities([]); // Clear the filteredCities array when city changes
 
     const fetchWeatherData = async () => {
       try {
@@ -87,28 +89,25 @@ function App() {
           <div className="container">
             <div className="section section__inputs">
               <input
-                id="change"
+              id="change"
                 onKeyDown={enterKeyPressed}
                 onChange={handleInputChange}
                 type="text"
                 name="city"
                 placeholder="Enter City..."
+                
               />
             </div>
-
-            {(searchcity.length > 1 && filteredCities.length === 0) ? (
-              <></>
-            ) : searchcity.length > 1 && (
+            {(searchcity.length > 1 && filteredCities.length===0 ) ? (<></>):searchcity.length > 1 && (
               <div className="citylist">
                 {filteredCities.map((cityName) => (
                   <div
                     className="modify"
                     key={cityName}
-                    onClick={() => {
-                      setCity(cityName);
-                      document.getElementById("change").value = cityName;
+                    onClick={() => {setCity(cityName) ;
+                      document.getElementById("change").value=cityName;
                       setFilteredCities([]);
-                    }}
+                     }}
                   >
                     {cityName}
                   </div>
@@ -129,7 +128,7 @@ function App() {
               </div>
             </div>
 
-            {/* Bottom description */}
+            {/* bottom description */}
             <Descriptions weather={weather} units={units} />
           </div>
         )}
@@ -139,4 +138,3 @@ function App() {
 }
 
 export default App;
-

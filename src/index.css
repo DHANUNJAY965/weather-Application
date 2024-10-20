@@ -1,6 +1,6 @@
 :root {
   --section-overlay: rgba(0, 0, 0, 0.7);
-  --background-overlay: rgba(0, 0, 0, 0.2);
+  --background-overlay: rgba(0, 0, 0, 0.2)
 }
 
 * {
@@ -27,12 +27,15 @@
   max-width: 800px;
   margin: auto;
   height: 100%;
+
   display: flex;
   align-items: center;
   justify-content: space-between;
   flex-direction: column;
   padding: 1rem;
 }
+
+/* Top  */
 
 .section {
   width: 100%;
@@ -41,15 +44,16 @@
   color: white;
 }
 
-.section__inputs,
-.section__temperature {
+.section__inputs, .section__temperature {
   display: flex;
   align-items: center;
   justify-content: space-between;
   background-color: var(--section-overlay);
 }
 
-.section__inputs > input {
+
+/* this means we are targeting the input field this css property will affect only the child input field only */
+.section__inputs>input {
   border: 0.8px solid white;
   border-radius: 0.4rem;
   background-color: transparent;
@@ -59,9 +63,32 @@
   font-weight: 200;
 }
 
-.section__inputs > input:focus {
-  outline: none;
+
+/* here targeting input feild when focused */
+.section__inputs>input:focus {
+  outline: none; 
+  /* we are removing the outline for the input feild when focused  */
 }
+
+ /* this means we are targeting the button field this css property will affect only the child button field only  */
+
+.section__inputs>button {
+  padding: 10px 50px;
+  border: none;
+  border-radius: 0.4rem;
+  font-size: 20px;
+  font-weight: 500;
+  background-color: white;
+}
+
+
+/* here targeting button feild when hovered */
+
+.section__inputs>button:hover {
+  cursor: pointer;
+  background-color: lightgray;
+}
+
 
 .icon {
   display: flex;
@@ -70,15 +97,16 @@
   justify-content: center;
 }
 
-.icon > h3 {
+.icon>h3 {
   font-size: 15px;
   font-weight: 200;
   text-transform: capitalize;
 }
 
-.temperature > h1 {
+.temperature>h1 {
   font-size: 60px;
 }
+
 
 .citylist {
   position: relative;
@@ -86,10 +114,11 @@
 }
 
 .citylist .modify {
+  
   color: white;
   cursor: pointer;
   padding: 10px;
-  width: calc(100% - 2px);
+  width: calc(100% - 2px); /* Adjust for border width */
   box-sizing: border-box;
   position: relative;
 }
@@ -97,3 +126,16 @@
 .citylist .modify:last-child {
   border-bottom: none;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
